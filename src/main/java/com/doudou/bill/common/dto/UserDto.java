@@ -1,4 +1,4 @@
-package com.doudou.bill.dto;
+package com.doudou.bill.common.dto;
 
 public class UserDto {
     private String UserId;

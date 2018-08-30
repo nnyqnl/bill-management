@@ -2,7 +2,7 @@ package com.doudou.bill.base;
 
 
 
-import com.doudou.bill.dto.UserDto;
+import com.doudou.bill.common.dto.UserDto;
 
 import java.io.Serializable;
 
