@@ -7,7 +7,7 @@
   <select id="getUserById" resultType="com.doudou.bill.orm.model.User" parameterType="java.lang.String">
    	select 
    	*
-   	from user
+   	from m_user
    	where
     user_id = #{UserId}
   </select>
