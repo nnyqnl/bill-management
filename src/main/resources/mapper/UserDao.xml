@@ -5,11 +5,25 @@
 
 
   <select id="getUserById" resultType="com.doudou.bill.orm.model.User" parameterType="java.lang.String">
-   	select 
+   	select
    	*
    	from m_user
    	where
-    user_id = #{UserId}
+    user_id = #{userId}
   </select>
+
+	<insert id="insertUser" parameterType="com.doudou.bill.common.dto.UserDto">
+		insert into m_user(
+		user_id,login_name,phone,password,create_time,update_time)
+		values (
+		#{userId},#{loginName},#{phone},#{password},#{createTime},#{updateTime})
+	</insert>
+
+	<delete id="deleteUserById" parameterType="java.lang.String">
+		delete from
+		m_user
+		where
+		user_id = #{userId}
+	</delete>
 
 </mapper>
