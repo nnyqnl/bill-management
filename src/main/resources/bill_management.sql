@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : mysql
-Source Server Version : 50721
+Source Server         : my
+Source Server Version : 50723
 Source Host           : localhost:3306
 Source Database       : bill_management
 
 Target Server Type    : MYSQL
-Target Server Version : 50721
+Target Server Version : 50723
 File Encoding         : 65001
 
-Date: 2018-09-01 14:15:32
+Date: 2018-09-03 10:55:56
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -26,10 +26,10 @@ CREATE TABLE `m_deal_record` (
   `deal_type` tinyint(4) NOT NULL COMMENT '交易类型，1收入 2支出',
   `deal_classify` tinyint(4) NOT NULL COMMENT '交易分类',
   `consume_time` datetime NOT NULL COMMENT '消费时间',
-  `create_time` datetime NOT NULL,
-  `update_time` datetime NOT NULL,
-  `create_user` varchar(32) NOT NULL,
-  `update_user` varchar(32) NOT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `create_user` varchar(32) DEFAULT NULL,
+  `update_user` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`deal_record_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -84,8 +84,8 @@ CREATE TABLE `m_user` (
   `login_name` varchar(20) NOT NULL,
   `phone` varchar(11) DEFAULT NULL,
   `password` varchar(20) NOT NULL,
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `update_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
   `create_user` varchar(32) DEFAULT NULL,
   `update_user` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`user_id`)

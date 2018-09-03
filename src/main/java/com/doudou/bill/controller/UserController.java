@@ -58,6 +58,11 @@ public class UserController {
         return br;
     }
 
+    @GetMapping(value = "/userList", produces = MediaType.APPLICATION_JSON_VALUE)
+    public BillResult userList() throws Exception{
+        BillResult br = userService.userList();
 
+        return br;
+    }
 
 }

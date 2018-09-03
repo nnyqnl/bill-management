@@ -6,10 +6,13 @@ import com.doudou.bill.orm.dao.UserDao;
 import com.doudou.bill.service.UserService;
 import com.doudou.bill.orm.model.User;
 import com.doudou.bill.util.StringUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -47,6 +50,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUserById(String userId) {
         userDao.deleteUserById(userId);
+    }
+
+    @Override
+    public BillResult userList() {
+        List<User> list = userDao.userList();
+        List<UserDto> dtoList = new ArrayList<>();
+        for (User u:list) {
+            UserDto d = new UserDto();
+            BeanUtils.copyProperties(u,d);
+            dtoList.add(d);
+        }
+        return BillResult.ok(dtoList);
     }
 
 

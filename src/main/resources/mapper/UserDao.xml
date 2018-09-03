@@ -26,4 +26,10 @@
 		user_id = #{userId}
 	</delete>
 
+	<select id="userList" resultType="com.doudou.bill.orm.model.User">
+		select
+		*
+		from m_user
+	</select>
+
 </mapper>

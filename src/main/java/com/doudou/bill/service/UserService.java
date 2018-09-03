@@ -10,4 +10,6 @@ public interface UserService {
     void insertUser(UserDto userDto);
 
     void deleteUserById(String userId);
+
+    BillResult userList();
 }
