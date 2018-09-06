@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.doudou.bill.orm.dao.DicDao">
+ 
+
+
+  <select id="selectById" resultType="com.doudou.bill.common.dto.DicDto" parameterType="java.lang.String">
+   	select
+   	*
+   	from m_dic
+   	where
+    class_id = #{classId}
+  </select>
+
+
+
+</mapper>

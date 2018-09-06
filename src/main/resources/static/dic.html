@@ -88,11 +88,81 @@
 </nav>
 
 
-<div  style="width:70%;margin:0 auto;">
-    <img src="./img/zhongqiu.png" style="width:100%;margin:0 auto;">
+<div style="width:70%;margin:0 auto;">
+    <table id="dicList" class="table table-active table-striped" width="70%" border="1" cellpadding="2" cellspacing="1">
+
+
+    </table>
 </div>
+
+
 <script type="text/javascript">
 
+    window.onload=function(){
+        dicList();
+    }
+    function dicList(){
+       $.ajax({
+            url : 'http://localhost:8080/user/dicList',
+            type : 'get',
+
+            success : function(data){
+                if('00000'==data.resultCode){
+                    initDicList(data);
+
+                }
+            }
+        });
+    }
+    function initDicList(data){
+        rtndata = {rows:data.resultData};
+        // console.log(rtndata.rows.name)
+        $('#userList').bootstrapTable('refresh')
+        $('#userList').bootstrapTable({
+            data:rtndata.rows,
+            dataType: "json",
+            // data:json.data.dataList,
+            cache: false, // 不缓存
+            // height: getHeight(), // 设置高度，会启用固定表头的特性
+            striped: true, // 隔行加亮
+            pagination: true, // 开启分页功能
+            search: false, // 开启搜索功能
+            showColumns: false, // 开启自定义列显示功能
+            showRefresh: true, // 开启刷新功能
+            // queryParams: queryParams,
+            pageSize: 2, //每页的记录行数（*）
+            minimumCountColumns: 2, // 设置最少显示列个数
+            clickToSelect: true, // 单击行即可以选中
+            uniqueId: "id", //每一行的唯一标识，一般为主键列
+            sortName: 'attendanceDate', // 设置默认排序为 name
+            sortOrder: 'desc', // 设置排序为反序 desc
+            columns: [{
+                field: 'classId',
+                title: 'classId',
+                align: 'center',
+                valign: 'middle',
+                sortable: true // 开启排序功能
+            },{
+                field: 'className',
+                title: 'className',
+                align: 'center',
+                valign: 'middle',
+                sortable: true // 开启排序功能
+            }, {
+                field: 'itemId',
+                title: 'itemId',
+                align: 'center',
+                valign: 'middle',
+                // sortable: true
+            },{
+                field: 'itemName',
+                title: 'itemName',
+                align: 'center',
+                valign: 'middle',
+                //sortable: true // 开启排序功能
+            }]
+    })
+    }
 </script>
 </body>
 </html>
