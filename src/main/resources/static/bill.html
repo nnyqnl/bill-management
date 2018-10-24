@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="./css/bootstrap-table.css">
     <link rel="stylesheet" href="./css/my.css">
     <link rel="stylesheet" href="./bootstrap/css/bootstrap-datetimepicker.min.css">
-    <link rel="stylesheet" href="./bootstrap/css/bootstrap-select.scss">
+    <!--<link rel="stylesheet" href="./bootstrap/css/bootstrap-select.scss">-->
 
 
     <title>~~~~bill</title>
@@ -28,7 +28,7 @@
 <script src="./bootstrap/js/bootstrap-datetimepicker.min.js"></script>
 <script src="./bootstrap/js/bootstrap-datetimepicker.zh-CN.js"></script>
 <script src="./bootstrap/js/bootstrap-datetimepicker.fr.js"></script>
-<script src="./bootstrap/js/bootstrap-select.js"></script>
+<!--<script src="./bootstrap/js/bootstrap-select.js"></script>-->
 <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>-->
 
@@ -141,18 +141,22 @@
 
     function getType(){
         <!--$("#dealType").html('<option data-hidden="true" value="0">请选择类型</option>')-->
+        <!--$("#dealType").empty();-->
         $.ajax({
             url : 'http://localhost:8080/dic/mDiclist',
             type : 'get',
             data : {'classIds':'3'},
             success : function(data){
                 if('00000'==data.resultCode){
+                    $('#dealType').attr("length",'0');
+
                     var dicList3 = data.resultData[3];
                     for (var i = 0; i < dicList3.length; i++) {
                         $('#dealType').append("<option value=" + dicList3[i].itemId + ">" + dicList3[i].itemName + "</option>");
+                         <!--$("#dealType").append($('<option value='+data[i].key+'>'+data[i].sectionName+'</option>'));-->
                     }
-                    $('#dealType').selectpicker('refresh');
-                    $('#dealType').selectpicker('render');
+                    <!--$('#dealType').selectpicker('refresh');-->
+                    <!--$('#dealType').selectpicker('render');-->
 
                 }
             }

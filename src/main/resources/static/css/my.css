@@ -94,3 +94,6 @@ a.i-banner-stat-certify-1, a.i-banner-stat-mobile-1, a.i-banner-stat-safeguard-1
     font-size: 16px;
     line-height: 16px;
 }
+.text-center {
+    text-align: center!important;
+}
