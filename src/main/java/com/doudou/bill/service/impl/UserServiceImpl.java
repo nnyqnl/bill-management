@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
         User user =  userDao.getUserById(userId);
 
         UserDto userDto = new UserDto();
-        userDto.setUserId(userId);
+        userDto.setId(userId);
         userDto.setLoginName(user.getLoginName());
         userDto.setPassword(user.getPassword());
         userDto.setPhone(user.getPhone());
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void insertUser(UserDto userDto) {
         User user = new User();
-        user.setUserId(StringUtil.getUUID());
+        user.setId(StringUtil.getUUID());
         user.setLoginName(userDto.getLoginName());
         user.setPhone(userDto.getPhone());
         user.setPassword(userDto.getPassword());

@@ -3,19 +3,19 @@ package com.doudou.bill.common.dto;
 import java.util.Date;
 
 public class UserDto {
-    private String userId;
+    private String id;
     private String loginName;
     private String phone;
     private String password;
     private Date createTime;
     private Date updateTime;
 
-    public String getUserId() {
-        return userId;
+    public String getId() {
+        return id;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getLoginName() {

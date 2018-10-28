@@ -1,12 +1,12 @@
-package com.doudou.bill.orm.model;
+package com.doudou.bill.common.dto;
 
 import java.util.Date;
 
-public class User {
+public class BookDto {
     private String id;
-    private String LoginName;
-    private String phone;
-    private String password;
+    private String bookName;
+    private String author;
+    private String introduction;
     private Date createTime;
     private Date updateTime;
     private String createUser;
@@ -20,28 +20,28 @@ public class User {
         this.id = id;
     }
 
-    public String getLoginName() {
-        return LoginName;
+    public String getBookName() {
+        return bookName;
     }
 
-    public void setLoginName(String loginName) {
-        LoginName = loginName;
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
-    public String getPassword() {
-        return password;
+    public String getIntroduction() {
+        return introduction;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
     }
 
     public Date getCreateTime() {
