@@ -1,5 +1,3 @@
-server:
-    port: 10001
 spring:
     # 数据库连接
     datasource:
@@ -13,11 +11,3 @@ mybatis-plus:
   type-aliases-package: com.doudou.bill.orm.model  # 注意：对应实体类的路径
   configuration:
       mapUnderscoreToCamelCase: true
-
-
-#热部署生效
-spring.devtools.restart.enabled: true
-#设置重启的目录
-spring.devtools.restart.additional-paths: src/main/resources
-#classpath目录下的WEB-INF文件夹内容修改不重启
-spring.devtools.restart.exclude: WEB-INF/**
