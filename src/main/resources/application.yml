@@ -4,8 +4,8 @@ spring:
     # 数据库连接
     datasource:
             driverClassName: com.mysql.jdbc.Driver
-            url: jdbc:mysql://localhost:3306/bill_management?characterEncoding=utf-8&useSSL=false
-            username: root
+            url: jdbc:mysql://www.superdou.shop:3306/bill_management?characterEncoding=utf-8&useSSL=false
+            username: wangcai
             password: 123456
 
 mybatis-plus:
