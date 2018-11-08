@@ -2,7 +2,9 @@ package com.doudou.bill.service.impl;
 
 import com.doudou.bill.common.dto.BillResult;
 import com.doudou.bill.common.dto.UserDto;
+import com.doudou.bill.orm.dao.MUserDao;
 import com.doudou.bill.orm.dao.UserDao;
+import com.doudou.bill.orm.model.MUser;
 import com.doudou.bill.service.UserService;
 import com.doudou.bill.orm.model.User;
 import com.doudou.bill.util.StringUtil;
@@ -19,6 +21,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private MUserDao mUserDao;
     @Override
     public BillResult getUserById(String userId) {
         User user =  userDao.getUserById(userId);
@@ -54,9 +58,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public BillResult userList() {
-        List<User> list = userDao.userList();
+        List<MUser> mUsers = mUserDao.selectList(null);
+
         List<UserDto> dtoList = new ArrayList<>();
-        for (User u:list) {
+        for (MUser u:mUsers) {
             UserDto d = new UserDto();
             BeanUtils.copyProperties(u,d);
             dtoList.add(d);
