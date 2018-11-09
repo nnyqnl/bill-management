@@ -51,7 +51,7 @@ import java.util.logging.Logger;
 /**
  * @author serenazhao image Demo代码
  */
-public class OcrDemo {
+public class TenxunOcrDemo {
 
     public static void main(String[] args) {
 
@@ -257,7 +257,7 @@ public class OcrDemo {
             idcardCompareName = "idcard.jpg";
             idcardCompareImage = new File("F:\\pic\\idcard.jpg");
         } catch (Exception ex) {
-            Logger.getLogger(OcrDemo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TenxunOcrDemo.class.getName()).log(Level.SEVERE, null, ex);
         }
         idCardCompareReq = new FaceIdCardCompareRequest(bucketName, idcardNumber, idcardName, idcardCompareName, idcardCompareImage, sessionId);
         try {
@@ -405,7 +405,7 @@ public class OcrDemo {
             faceVerifyName = "yang3.jpg";
             faceVerifyImage = new File("F:\\pic\\yang3.jpg");
         } catch (Exception ex) {
-            Logger.getLogger(OcrDemo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TenxunOcrDemo.class.getName()).log(Level.SEVERE, null, ex);
         }
         faceVerifyReq = new FaceVerifyRequest(bucketName, faceVerifyPersonId, faceVerifyName, faceVerifyImage);
         try {
@@ -701,7 +701,7 @@ public class OcrDemo {
             faceShapeName = "face1.jpg";
             faceShapeImage = new File("F:\\pic\\face1.jpg");
         } catch (Exception ex) {
-            Logger.getLogger(OcrDemo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TenxunOcrDemo.class.getName()).log(Level.SEVERE, null, ex);
         }
         faceShapeReq = new FaceShapeRequest(bucketName, faceShapeName, faceShapeImage, 1);
         try {
@@ -737,7 +737,7 @@ public class OcrDemo {
             faceDetectName = "face1.jpg";
             faceDetectImage = new File("F:\\pic\\face1.jpg");
         } catch (Exception ex) {
-            Logger.getLogger(OcrDemo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TenxunOcrDemo.class.getName()).log(Level.SEVERE, null, ex);
         }
         faceDetectReq = new FaceDetectRequest(bucketName, faceDetectName, faceDetectImage, 1);
         try {
@@ -1005,7 +1005,7 @@ public class OcrDemo {
         try {
             tagImage = new File("assets", "icon_imag_01.jpg");
         } catch (Exception ex) {
-            Logger.getLogger(OcrDemo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TenxunOcrDemo.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         tagReq = new TagDetectRequest(bucketName, tagImage);
