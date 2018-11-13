@@ -4,6 +4,8 @@
  */
 package com.doudou.bill.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.qcloud.image.ImageClient;
 import com.qcloud.image.exception.AbstractImageException;
 import com.qcloud.image.request.FaceAddFaceRequest;
@@ -39,12 +41,14 @@ import com.qcloud.image.request.OcrPlateRequest;
 import com.qcloud.image.request.PornDetectRequest;
 import com.qcloud.image.request.TagDetectRequest;
 
-import org.json.JSONObject;
+
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -119,11 +123,11 @@ public class TenxunOcrDemo {
         faceIdCardLiveDetectFour(imageClient, bucketName, validate);
         faceLiveDetectFour(imageClient, bucketName, validate);
         faceLiveDetectPicture(imageClient, bucketName);//人脸静态活体检测*/
-//        ocrIdCard(imageClient, bucketName);
+        ocrIdCard(imageClient, bucketName);
 //        //鉴黄
 //        imagePorn(imageClient, bucketName);
         //通用
-        ocrGeneral(imageClient, bucketName);
+//        ocrGeneral(imageClient, bucketName);
         imageClient.shutdown();
     }
 
@@ -208,7 +212,7 @@ public class TenxunOcrDemo {
     /**
      * 获取验证码接口
      */
-    private static String faceLiveGetFour(ImageClient imageClient, String bucketName) {
+   /* private static String faceLiveGetFour(ImageClient imageClient, String bucketName) {
         System.out.println("====================================================");
         String seq = "";
         FaceLiveGetFourRequest getFaceFourReq = new FaceLiveGetFourRequest(bucketName, seq);
@@ -227,7 +231,7 @@ public class TenxunOcrDemo {
             validate = data.getString("validate_data");
         }
         return validate;
-    }
+    }*/
 
     /**
      * 身份证识别对比接口
@@ -936,44 +940,30 @@ public class TenxunOcrDemo {
      */
     private static void ocrIdCard(ImageClient imageClient, String bucketName) {
         String ret = null;
-        // 1. url方式,识别身份证正面
-        System.out.println("====================================================");
-        String[] idcardUrlList = new String[2];
-        idcardUrlList[0] = "http://youtu.qq.com/app/img/experience/char_general/icon_id_01.jpg";
-        idcardUrlList[1] = "http://youtu.qq.com/app/img/experience/char_general/icon_id_02.jpg";
-        IdcardDetectRequest idReq = new IdcardDetectRequest(bucketName, idcardUrlList, 0);
-        try {
-            ret = imageClient.idcardDetect(idReq);
-        } catch (AbstractImageException e) {
-            e.printStackTrace();
-        }
-        System.out.println("idcard detect ret:" + ret);
-        //识别身份证反面
-        idcardUrlList[0] = "https://gss0.baidu.com/9vo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/314e251f95cad1c89e04bea2763e6709c83d51f3.jpg";
-        idcardUrlList[1] = "http://image2.sina.com.cn/dy/c/2004-03-29/U48P1T1D3073262F23DT20040329135445.jpg";
-        idReq = new IdcardDetectRequest(bucketName, idcardUrlList, 1);
-        try {
-            ret = imageClient.idcardDetect(idReq);
-        } catch (AbstractImageException e) {
-            e.printStackTrace();
-        }
-        System.out.println("idcard detect ret:" + ret);
+
 
         //2. 图片内容方式,识别身份证正面
         System.out.println("====================================================");
-        File[] idcardImageList = new File[2];
+        File[] idcardImageList = new File[1];
         idcardImageList[0] = new File("assets", "icon_id_01.jpg");
-        idcardImageList[1] = new File("assets", "icon_id_02.jpg");
-        idReq = new IdcardDetectRequest(bucketName, idcardImageList, 0);
+//        idcardImageList[0] = new File("assets", "icon_id_04.jpg");
+        IdcardDetectRequest idReq = new IdcardDetectRequest(bucketName, idcardImageList, 0);
+
         try {
             ret = imageClient.idcardDetect(idReq);
         } catch (AbstractImageException e) {
             e.printStackTrace();
         }
+
+        Map map = parseIdCardResult(ret);
+        System.out.println(map);
+
+
+
         System.out.println("idcard detect ret:" + ret);
         //识别身份证反面
         idcardImageList[0] = new File("assets", "icon_id_03.jpg");
-        idcardImageList[1] = new File("assets", "icon_id_04.jpg");
+//        idcardImageList[1] = new File("assets", "icon_id_04.jpg");
         idReq = new IdcardDetectRequest(bucketName,  idcardImageList, 1);
         try {
             ret = imageClient.idcardDetect(idReq);
@@ -983,6 +973,129 @@ public class TenxunOcrDemo {
         System.out.println("idcard detect ret:" + ret);
     }
 
+    /**
+     * 解析ocr身份证识别的返回值
+     * @param ret  调用腾讯ocr识别身份证（正方面），返回的值
+     * @return myCode，自定义的状态值 为"0"，表示解析成功；为"1",表示各种情况的失败
+     */
+    private static Map<String,String> parseIdCardResult(String ret) {
+        Map<String, String> map = new HashMap<>();
+        int code = 1;
+        String myCode = null;
+        String name=null;
+        String sex=null;
+        String nation=null;
+        String birth=null;
+        String address=null;
+        String id=null;
+        String authority = null;
+        String validDate = null;
+        try {
+            JSONObject jsonObject = JSONObject.parseObject(ret);
+            JSONArray resultList = jsonObject.getJSONArray("result_list");
+            if (null != resultList && resultList.size()>0) {
+                code = resultList.getJSONObject(0).getInteger("code");
+                if(0==code){//腾讯的返回状态码，0表示成功，非0失败
+                    JSONObject data = resultList.getJSONObject(0).getJSONObject("data");
+                    name = data.getString("name");
+                    sex = data.getString("sex");
+                    nation = data.getString("nation");
+                    birth = data.getString("birth");
+                    address = data.getString("address");
+                    id = data.getString("id");
+                    authority = data.getString("authority");
+                    validDate = data.getString("valid_date");
+                    myCode = "0";
+                }else {
+                    myCode = "1";
+                }
+
+            }
+        }catch (Exception e){
+            myCode = "1";
+            e.printStackTrace();
+        }
+
+        if("0".equals(myCode)){
+            map.put("myCode","0");
+            map.put("name",name);
+            map.put("sex",sex);
+            map.put("nation",nation);
+            map.put("birth",birth);
+            map.put("address",address);
+            map.put("id",id);
+            map.put("authority",authority);
+            map.put("validDate",validDate);
+        }else {
+            map.put("myCode","1");
+        }
+        return map;
+    }
+
+    /**
+     * 解析ocr银行卡识别的返回值
+     * @param ret  调用腾讯ocr识别银行卡，返回的值
+     * @return  自定义的状态值 为"0"，表示解析成功；为"1",表示各种情况的失败
+     */
+    private Map parseBandCardResult(String ret) {
+        Map<String, String> map = new HashMap<>();
+        int code = 1;
+        String myCode = null;
+        String bankCardNo=null;
+        String bankcardType=null;
+        String bankcardName=null;
+        String bankInfo=null;
+        String expiryDate=null;
+
+        try {
+            JSONObject jsonObject = JSONObject.parseObject(ret);
+
+
+            code = jsonObject.getInteger("code");
+            if(0==code){//腾讯的返回状态码，0表示成功，非0失败
+                JSONArray data = jsonObject.getJSONArray("data");
+                for(int i=0;i<data.size();i++){
+                    JSONObject o = data.getJSONObject(i); // 遍历 jsonarray 数组，把每一个对象转成 json 对象
+                    if ("卡号".equals(o.getString("item"))) {
+                        bankCardNo = o.getString("itemstring");
+                    }
+                    if ("卡类型".equals(o.getString("item"))) {
+                        bankcardType = o.getString("itemstring");
+                    }
+                    if ("卡名字".equals(o.getString("item"))) {
+                        bankcardName = o.getString("itemstring");
+                    }
+                    if ("银行信息".equals(o.getString("item"))) {
+                        bankInfo = o.getString("itemstring");
+                    }
+                    if ("有效期".equals(o.getString("item"))) {
+                        expiryDate = o.getString("itemstring");
+                    }
+
+                }
+                myCode = "0";
+            }else {
+                myCode = "1";
+            }
+
+
+        }catch (Exception e){
+            myCode = "1";
+            e.printStackTrace();
+        }
+
+        if("0".equals(myCode)){
+            map.put("myCode","0");
+            map.put("bankCardNo",bankCardNo);//卡号
+            map.put("bankcardType",bankcardType);//卡类型
+            map.put("bankcardName",bankcardName);//卡名字
+            map.put("bankInfo",bankInfo);//银行信息
+            map.put("expiryDate",expiryDate);//有效期
+        }else {
+            map.put("myCode","1");
+        }
+        return map;
+    }
     /**
      * 标签识别操作
      */
