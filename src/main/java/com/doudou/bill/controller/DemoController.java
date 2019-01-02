@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.doudou.bill.common.dto.XmlModel;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 import java.io.PrintWriter;
 
-@RestController
+@Controller
 @RequestMapping("demo")
 public class DemoController {
     @GetMapping(value = "/first", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -53,4 +54,15 @@ public class DemoController {
         x.setName("旺财");
 //        return x;
     }
+
+    @RequestMapping(value = "/hello")
+    public String hello(){
+        return "/word.html";
+    }
+    @RequestMapping(value = "/tuzi")
+    @ResponseBody
+    public String tuzi(){
+        return "........tuzi";
+    }
 }
+
