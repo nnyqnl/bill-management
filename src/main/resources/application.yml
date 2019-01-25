@@ -9,7 +9,7 @@ spring:
             password: welL123.0
 
     redis:
-      host: localhost
+      host: 180.76.102.64
       port: 6379
       database: 0
       password:
